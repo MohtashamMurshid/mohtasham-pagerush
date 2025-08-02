@@ -16,7 +16,9 @@ import {
 } from "@/components/ui/sidebar";
 import { Authenticated, Unauthenticated, AuthLoading } from "convex/react";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { DocumentUpload } from "@/components/DocumentUpload";
+import { DocumentList } from "@/components/DocumentList";
 
 function UnauthenticatedRedirect() {
   const router = useRouter();
@@ -47,7 +49,36 @@ function LoadingDashboard() {
   );
 }
 
-function DashboardContent() {
+function DashboardMain() {
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+
+  const handleUploadComplete = () => {
+    setRefreshTrigger((prev) => prev + 1);
+  };
+
+  return (
+    <div className="space-y-6 p-6">
+      <div className="space-y-2">
+        <h1 className="text-3xl font-bold tracking-tight">Document Manager</h1>
+        <p className="text-muted-foreground">
+          Upload, manage, and search your documents with automatic content
+          extraction.
+        </p>
+      </div>
+
+      <div className="grid gap-6 lg:grid-cols-2">
+        <div className="space-y-6">
+          <DocumentUpload onUploadComplete={handleUploadComplete} />
+        </div>
+        <div className="space-y-6">
+          <DocumentList refreshTrigger={refreshTrigger} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DashboardLayout() {
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -73,12 +104,9 @@ function DashboardContent() {
           </div>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-            <div className="bg-muted/50 aspect-video rounded-xl" />
-            <div className="bg-muted/50 aspect-video rounded-xl" />
-            <div className="bg-muted/50 aspect-video rounded-xl" />
+          <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min">
+            <DashboardMain />
           </div>
-          <div className="bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min" />
         </div>
       </SidebarInset>
     </SidebarProvider>
@@ -95,7 +123,7 @@ export default function Page() {
         <UnauthenticatedRedirect />
       </Unauthenticated>
       <Authenticated>
-        <DashboardContent />
+        <DashboardLayout />
       </Authenticated>
     </>
   );

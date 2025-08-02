@@ -42,7 +42,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarHeader className="border-b">
         <div className="flex items-center gap-2 px-4 py-2">
           <GraduationCap className="h-6 w-6 text-primary" />
-          <span className="font-bold text-lg">PageRush</span>
+          <span className="font-bold text-lg group-data-[collapsible=icon]:hidden">
+            PageRush
+          </span>
         </div>
       </SidebarHeader>
 

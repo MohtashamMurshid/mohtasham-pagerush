@@ -34,7 +34,7 @@ export default function Error({
           </h1>
           <p className="text-muted-foreground">
             We encountered an error while loading your dashboard. This has been
-            logged and we'll look into it.
+            logged and we&apos;ll look into it.
           </p>
         </div>
 

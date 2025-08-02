@@ -13,8 +13,11 @@ export const currentUser = query({
 
     // Extract user info from the subject ID for Convex Auth Password provider
     const authSubject = identity.subject;
-    // Use the first part of the subject as a user identifier for the name
-    const emailIdName = (identity.email ?? "").split("@")[0];
+    // Use the first part of the email as a user identifier for the name
+    // If no email, generate a fallback based on the auth subject
+    const emailIdName =
+      identity.email?.split("@")[0] ??
+      `user-${authSubject.split("|")[0].slice(-8)}`;
 
     // First, find the auth account using the subject/providerAccountId
     const authAccount = await ctx.db

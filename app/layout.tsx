@@ -3,6 +3,7 @@ import { DM_Sans, Space_Mono } from "next/font/google";
 import "./globals.css";
 import { ConvexClientProvider } from "../components/ConvexClientProvider";
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
+import { Toaster } from "@/components/ui/toaster";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -31,7 +32,10 @@ export default function RootLayout({
     <ConvexAuthNextjsServerProvider>
       <html lang="en" className={`${dmSans.variable} ${spaceMono.variable}`}>
         <body>
-          <ConvexClientProvider>{children}</ConvexClientProvider>
+          <ConvexClientProvider>
+            {children}
+            <Toaster />
+          </ConvexClientProvider>
         </body>
       </html>
     </ConvexAuthNextjsServerProvider>
